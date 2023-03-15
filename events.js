@@ -1,4 +1,3 @@
-//var IMAGES = ["#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9", "#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19", "#20", "#21", "#22", "#23", "#24", "#25", "#26", "#27", "#28", "#29", "#30", "#31", "#32", "#33", "#34", "#35", "#36", "#37", "#38", "#39", "#40", "#41", "#42", "#43", "#44", "#45", "#46", "#47", "#48"];
 var IMAGES = [];
 var words = ['anger', 'ants', 'art', 'beach', 'beam',
              'beauty', 'black', 'bloom', 'blur', 'books',
@@ -35,17 +34,6 @@ function initializeImages(count){
 
 function setRandomKeyword(){
     return words[Math.floor(Math.random() * words.length)];
-}
-
-async function generateWord(){
-    try{
-        let w = await fetch('https://random-word-api.herokuapp.com/word');
-        let json = await w.json();
-        return String(json[0]);
-    } catch (error) {
-        console.log("ERROR");
-        console.log(error);
-    }
 }
 
 function changeSRC(id){
