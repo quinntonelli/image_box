@@ -28,7 +28,7 @@ function initializeImages(count){
         var myImage = document.getElementById(targetID);
         var word = setRandomKeyword();
         link = ("https://loremflickr.com/256/256/" + word + "?random=" + (i+1));
-        console.log(link);
+        //console.log(link);
         myImage.src = link;
     }
 }
@@ -53,8 +53,8 @@ function changeSRC(id){
     link = ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (id));
     if (myImage != null){
         myImage.src = link;
-        console.log(String(id) + " is now: " + String(link));
-        console.log(myImage.src);
+        //console.log(String(id) + " is now: " + String(link));
+        //console.log(myImage.src);
     }
 }
 
@@ -70,7 +70,7 @@ function changeRandomSRCXTimes(count, x, word){
         link = ("https://loremflickr.com/256/256/" + word + "?random=" + (targetID));
         if (myImage != null){
             myImage.src = link;
-            console.log(String(targetID) + " is now: " + String(link));
+            //console.log(String(targetID) + " is now: " + String(link));
         }
     }
 }
