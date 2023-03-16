@@ -140,7 +140,7 @@ AFRAME.registerComponent('timed-change-src', {
             y = x;
             el.setAttribute('src', IMAGES[x]);
             changeSRC(x);
-          }, (Math.random() * 9000) + 1000);
+          }, (Math.random() * 9000) + 500);
     }
 })
 
