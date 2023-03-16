@@ -14,7 +14,7 @@ var words = ['anger', 'ants', 'art', 'beach', 'beam',
              'rest', 'road', 'sad', 'sensual', 'sky', 'sleep', 
              'soil', 'space', 'sun', 'sunset', 'swoon', 'textile', 
              'texture', 'time', 'tree', 'virtual', 'wall', 'war', 
-             'warm', 'warmth', 'watch', 'wealth', 'weed', 'world'];
+             'warm', 'warmth', 'watch', 'wealth', 'weed', 'wires', 'world'];
 
 function initializeIDs(x){
     for(i = 0; i < x; i++){
