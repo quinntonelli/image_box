@@ -2,11 +2,11 @@
 var IMAGES = [];
 var words = ['anger', 'ants', 'art', 'beach', 'beam',
              'beauty', 'black', 'bloom', 'blur', 'books',
-             'born', 'breath', 'careful', 'casino', 'child', 
+             'born', 'breath', "butterfly", 'careful', 'casino', 'child', 
              'city', 'clothes', 'cord', 'crush', 'cry', 'cute', 
              'dance', 'death', 'earth', 'emblem', 'end', 'eye', 
              'face', 'fade', 'food', 'government', 'grass', 
-             'growth', 'health', 'human', 'illegal', 'inspire', 
+             'growth', 'health', "heart", 'human', 'illegal', 'inspire', 
              'inspiring', 'islam', 'joy', 'kin', 'loss', 
              'love', 'magic', 'mall', 'moon', 'music', 'no', 
              'ocean', 'pain', 'painting', 'penthouse', 'pretty', 
@@ -140,7 +140,7 @@ AFRAME.registerComponent('timed-change-src', {
             y = x;
             el.setAttribute('src', IMAGES[x]);
             changeSRC(x);
-          }, (Math.random() * 9000) + 500);
+          }, (Math.random() * 9000) + 1000);
     }
 })
 
