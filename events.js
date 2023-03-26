@@ -42,24 +42,24 @@ function setRandomKeyword(){
 
 function changeSRC(id){
     var newID = String(id).substring(1);
-    console.log(newID);
+    //console.log(newID);
     var myImage = document.getElementById(newID);
     link = ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (newID));
     if (myImage != null){
         myImage.src = link;
-        console.log(String(id) + " is now: " + String(link));
+        //console.log(String(id) + " is now: " + String(link));
         //console.log(myImage.src);
     }
 }
 
 function pushID(id){
-    console.log("pushing: " +  String(id));
+    //console.log("pushing: " +  String(id));
     in_use.push(String(id));
-    console.log(in_use);
+    //console.log(in_use);
 }
 
 function popID(id){
-    console.log("popping: " + id);
+    //console.log("popping: " + id);
     var t = in_use.indexOf(id);
     //console.log(t);
     in_use.splice(t, 1);
