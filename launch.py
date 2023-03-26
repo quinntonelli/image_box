@@ -3,7 +3,7 @@ import time
 
 #pip install pynput
 from pynput.keyboard import Key, Controller as KC
-from pynput.mouse import Button,Controller as MC
+from pynput.mouse import Button, Controller as MC
 
 keyboard = KC()
 mouse = MC()
