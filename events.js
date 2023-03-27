@@ -85,7 +85,7 @@ AFRAME.registerComponent('timed-change-src', {
             el.setAttribute('src', IMAGES[x]);
             pushID(IMAGES[x]);
             
-          }, (Math.random() * 9000) + 1000);
+          }, (Math.random() * 7000) + 1500);
     }
 })
 
