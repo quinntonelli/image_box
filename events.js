@@ -1,4 +1,6 @@
-//var IMAGES = ["#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9", "#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19", "#20", "#21", "#22", "#23", "#24", "#25", "#26", "#27", "#28", "#29", "#30", "#31", "#32", "#33", "#34", "#35", "#36", "#37", "#38", "#39", "#40", "#41", "#42", "#43", "#44", "#45", "#46", "#47", "#48"];
+//options: flickr/picsum
+const database = "picsum";
+
 var IMAGES = [];
 
 var words = ['anger', 'ants', 'art', 'beach', 'beam',
@@ -17,7 +19,10 @@ var words = ['anger', 'ants', 'art', 'beach', 'beam',
              'texture', 'time', 'tree', 'veil', 'view', 'virtual', 'wall', 
              'war', 'warm', 'warmth', 'watch', 'wealth', 'weed', 'world'];
 
+var added_weight = [];
+
 var in_use = ['#1', '#2', '#3', '#4', '#5', '#6'];
+
 
 function initializeIDs(count){
     for(i = 0; i < count; i++){
@@ -29,8 +34,24 @@ function initializeImages(count){
     for(i = 0; i < count; i++){
         var targetID = String(i+1);
         var myImage = document.getElementById(targetID);
-        var word = setRandomKeyword();
-        link = ("https://loremflickr.com/256/256/" + word + "?random=" + (i+1));
+        
+
+        //FLICKR
+        //-------
+        if(database == "flickr"){
+            var word = setRandomKeyword();
+            link = ("https://loremflickr.com/256/256/" + word + "?random=" + (i+1));
+        }
+        //-------
+
+        //PICSUM
+        //-------
+        if(database == "picsum"){
+            var seed = Math.floor(Math.random() * 9999);
+            link = ("https://picsum.photos/seed/" + seed + "/256");
+        }
+        //-------
+        
         //console.log(link);
         myImage.src = link;
     }
@@ -40,11 +61,29 @@ function setRandomKeyword(){
     return words[Math.floor(Math.random() * words.length)];
 }
 
+function generateRandomSeed(){
+    return Math.floor(Math.random() * 9999);
+}
+
 function changeSRC(id){
     var newID = String(id).substring(1);
     //console.log(newID);
     var myImage = document.getElementById(newID);
-    link = ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (newID));
+    
+    //FLICKR
+    //-------
+    if(database == "flickr"){
+        link = ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (newID));
+    }
+    //-------
+
+    //PICSUM
+    //-------
+    if(database == "picsum"){
+        link = ("https://picsum.photos/seed/" + generateRandomSeed() + "/256");
+    }
+    //------
+
     if (myImage != null){
         myImage.src = link;
         //console.log(String(id) + " is now: " + String(link));
@@ -63,6 +102,30 @@ function popID(id){
     var t = in_use.indexOf(id);
     //console.log(t);
     in_use.splice(t, 1);
+}
+
+function increaseWordProbability(word){
+    added_weight.push(word);
+    console.log(added_weight);
+    words = words.concat(added_weight);
+    //console.log(words.filter(word));
+}
+
+function getViewedWord(id){
+    var newID = String(id).substring(1);
+    //console.log(newID);
+    var myImage = document.getElementById(newID);
+    var sub = "";
+    var src = "";
+    console.log("getting viewed word");
+    if (myImage != null){
+        src = myImage.src;
+        console.log(src);
+        console.log("Substring: ");
+        sub = src.split("[\/?]")[5];
+        console.log(sub);
+    }
+    return sub;
 }
 
 //COMPONENTS
@@ -96,6 +159,9 @@ AFRAME.registerComponent('cursor-change-src', {
         this.el.addEventListener('fusing', function (evt) {
             x = this.getAttribute('src');
             popID(x);
+            if(database == "flickr"){
+                increaseWordProbability(getViewedWord(x));
+            }
             //console.log(x);
             y = x;
             while (y == x || in_use.includes(IMAGES[x])){
@@ -105,7 +171,6 @@ AFRAME.registerComponent('cursor-change-src', {
             this.setAttribute('src', IMAGES[x]);
             pushID(this.getAttribute('src'));
             y = x;
-            
         });
     }
 })
