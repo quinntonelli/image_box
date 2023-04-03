@@ -1,5 +1,5 @@
 //options: flickr/picsum
-const database = "picsum";
+const database = "flickr";
 
 var IMAGES = [];
 
@@ -159,9 +159,9 @@ AFRAME.registerComponent('cursor-change-src', {
         this.el.addEventListener('fusing', function (evt) {
             x = this.getAttribute('src');
             popID(x);
-            if(database == "flickr"){
-                increaseWordProbability(getViewedWord(x));
-            }
+            // if(database == "flickr"){
+            //     increaseWordProbability(getViewedWord(x));
+            // }
             //console.log(x);
             y = x;
             while (y == x || in_use.includes(IMAGES[x])){
