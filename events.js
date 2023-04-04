@@ -1,4 +1,4 @@
-//options: flickr/picsum
+//options: flickr/picsum/multi
 const database = "multi";
 
 var IMAGES = [];
