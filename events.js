@@ -1,5 +1,5 @@
 //options: flickr/picsum
-const database = "flickr";
+const database = "multi";
 
 var IMAGES = [];
 
@@ -34,24 +34,7 @@ function initializeImages(count){
     for(i = 0; i < count; i++){
         var targetID = String(i+1);
         var myImage = document.getElementById(targetID);
-        
-
-        //FLICKR
-        //-------
-        if(database == "flickr"){
-            var word = setRandomKeyword();
-            link = ("https://loremflickr.com/256/256/" + word + "?random=" + (i+1));
-        }
-        //-------
-
-        //PICSUM
-        //-------
-        if(database == "picsum"){
-            var seed = Math.floor(Math.random() * 9999);
-            link = ("https://picsum.photos/seed/" + seed + "/256");
-        }
-        //-------
-        
+        var link = generateLink(i+1);
         //console.log(link);
         myImage.src = link;
     }
@@ -65,24 +48,32 @@ function generateRandomSeed(){
     return Math.floor(Math.random() * 9999);
 }
 
+function generateLink(id){
+
+    if(database == "flickr"){
+        return ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (id));
+    }
+
+    if(database == "picsum"){
+        return ("https://picsum.photos/seed/" + generateRandomSeed() + "/256");
+    }
+
+    if(database == "multi"){
+        if(Math.random() > 0.2){
+            return ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (id));
+        } else {
+            return ("https://picsum.photos/seed/" + generateRandomSeed() + "/256"); 
+        }
+    }
+
+}
+
 function changeSRC(id){
     var newID = String(id).substring(1);
     //console.log(newID);
     var myImage = document.getElementById(newID);
     
-    //FLICKR
-    //-------
-    if(database == "flickr"){
-        link = ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (newID));
-    }
-    //-------
-
-    //PICSUM
-    //-------
-    if(database == "picsum"){
-        link = ("https://picsum.photos/seed/" + generateRandomSeed() + "/256");
-    }
-    //------
+    var link = generateLink(newID);
 
     if (myImage != null){
         myImage.src = link;
