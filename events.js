@@ -1,5 +1,8 @@
 //options: flickr/picsum/multi
 const database = "multi";
+const recommendationsOn = false;
+
+var imageSize = "256";
 
 var IMAGES = [];
 
@@ -23,14 +26,8 @@ var added_weight = [];
 
 var in_use = ['#1', '#2', '#3', '#4', '#5', '#6'];
 
-//required for vr compatibility
-function setCamera(){
-    const camera = document.querySelector('#cam');
-    if(camera==null){
-        console.log("camera null");
-    } else {
-        camera.setAttribute('position', {x: 0, y: 30, z: 0});
-    }
+function setImageSize(x){
+    imageSize = String(x);
 }
 
 function initializeIDs(count){
@@ -44,7 +41,6 @@ function initializeImages(count){
         var targetID = String(i+1);
         var myImage = document.getElementById(targetID);
         var link = generateLink(i+1);
-        //console.log(link);
         myImage.src = link;
     }
 }
@@ -53,25 +49,25 @@ function setRandomKeyword(){
     return words[Math.floor(Math.random() * words.length)];
 }
 
-function generateRandomSeed(){
-    return Math.floor(Math.random() * 9999);
+function generateRandomNumber(range){
+    return Math.floor(Math.random() * range);
 }
 
 function generateLink(id){
 
     if(database == "flickr"){
-        return ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (id));
+        return ("https://loremflickr.com/" + imageSize + "/" + imageSize + "/" + setRandomKeyword() + "?random=" + (id));
     }
 
     if(database == "picsum"){
-        return ("https://picsum.photos/seed/" + generateRandomSeed() + "/256");
+        return ("https://picsum.photos/seed/" + generateRandomNumber(9999) + "/" + imageSize);
     }
 
     if(database == "multi"){
         if(Math.random() > 0.2){
-            return ("https://loremflickr.com/256/256/" + setRandomKeyword() + "?random=" + (id));
+            return ("https://loremflickr.com/" + imageSize + "/" + imageSize + "/" + setRandomKeyword() + "?random=" + (id));
         } else {
-            return ("https://picsum.photos/seed/" + generateRandomSeed() + "/256"); 
+            return ("https://picsum.photos/seed/" + generateRandomNumber(9999) + "/" + imageSize); 
         }
     }
 
@@ -79,7 +75,6 @@ function generateLink(id){
 
 function changeSRC(id){
     var newID = String(id).substring(1);
-    //console.log(newID);
     var myImage = document.getElementById(newID);
     
     var link = generateLink(newID);
@@ -87,26 +82,21 @@ function changeSRC(id){
     if (myImage != null){
         myImage.src = link;
         //console.log(String(id) + " is now: " + String(link));
-        //console.log(myImage.src);
     }
 }
 
 function pushID(id){
-    //console.log("pushing: " +  String(id));
     in_use.push(String(id));
-    //console.log(in_use);
 }
 
 function popID(id){
-    //console.log("popping: " + id);
     var t = in_use.indexOf(id);
-    //console.log(t);
     in_use.splice(t, 1);
 }
 
 function increaseWordProbability(word){
     added_weight.push(word);
-    console.log(added_weight);
+    //console.log(added_weight);
     words = words.concat(added_weight);
     //console.log(words.filter(word));
 }
@@ -120,10 +110,9 @@ function getViewedWord(id){
     console.log("getting viewed word");
     if (myImage != null){
         src = myImage.src;
-        console.log(src);
-        console.log("Substring: ");
+        console.log("SRC: " + src);
+        console.log("Substring: " + sub);
         sub = src.split("[\/?]")[5];
-        console.log(sub);
     }
     return sub;
 }
@@ -138,7 +127,6 @@ AFRAME.registerComponent('timed-change-src', {
         const interval = setInterval(function() {
             x = el.getAttribute('src');
             popID(x);
-            //console.log(x);
             y = x;
             changeSRC(x);
             while (y == x || in_use.includes(IMAGES[x])){
@@ -148,7 +136,7 @@ AFRAME.registerComponent('timed-change-src', {
             el.setAttribute('src', IMAGES[x]);
             pushID(IMAGES[x]);
             
-          }, (Math.random() * 7000) + 1500);
+          }, (generateRandomNumber(7000)) + 1500);
     }
 })
 
@@ -159,10 +147,9 @@ AFRAME.registerComponent('cursor-change-src', {
         this.el.addEventListener('fusing', function (evt) {
             x = this.getAttribute('src');
             popID(x);
-            // if(database == "flickr"){
-            //     increaseWordProbability(getViewedWord(x));
-            // }
-            //console.log(x);
+            if(recommendationsOn){
+                increaseWordProbability(getViewedWord(x));
+            }
             y = x;
             while (y == x || in_use.includes(IMAGES[x])){
                 x = Math.floor(Math.random() * IMAGES.length);
