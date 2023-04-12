@@ -23,6 +23,15 @@ var added_weight = [];
 
 var in_use = ['#1', '#2', '#3', '#4', '#5', '#6'];
 
+//required for vr compatibility
+function setCamera(){
+    const camera = document.querySelector('#cam');
+    if(camera==null){
+        console.log("camera null");
+    } else {
+        camera.setAttribute('position', {x: 0, y: 30, z: 0});
+    }
+}
 
 function initializeIDs(count){
     for(i = 0; i < count; i++){
