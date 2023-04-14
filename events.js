@@ -1,6 +1,6 @@
 //options: flickr/picsum/multi
 const database = "multi";
-const recommendationsOn = false;
+const recommendationsOn = true;
 
 var imageSize = "256";
 
@@ -95,10 +95,12 @@ function popID(id){
 }
 
 function increaseWordProbability(word){
-    added_weight.push(word);
-    //console.log(added_weight);
-    words = words.concat(added_weight);
-    //console.log(words.filter(word));
+    if(word != ""){
+        added_weight.push(word);
+        //console.log(added_weight);
+        words.push(word);
+        //console.log(words);
+    }
 }
 
 function getViewedWord(id){
@@ -107,13 +109,16 @@ function getViewedWord(id){
     var myImage = document.getElementById(newID);
     var sub = "";
     var src = "";
-    console.log("getting viewed word");
+    //console.log("getting viewed word");
     if (myImage != null){
         src = myImage.src;
-        console.log("SRC: " + src);
-        console.log("Substring: " + sub);
-        sub = src.split("[\/?]")[5];
+        // console.log("SRC: " + src);
+        const a = src.search(/\/([^\/?]+)\?/)+1;
+        const b = src.search(/\?/);
+        sub = src.substring(a, b);
+
     }
+    // console.log("Substring: " + sub);
     return sub;
 }
 
